@@ -5,5 +5,6 @@ class AppRoutes{
   static const welcomeScreen = "/welcomeScreen";
   static const addMachineScreen = "/addMachineScreen";
   static const viewMachineScreen = "/viewMachineScreen";
-
+  static const machineDetailsScreen = "/machineDetailsScreen";
+  static const machineDispatchScreen = "/machineDispatchScreen";
 }

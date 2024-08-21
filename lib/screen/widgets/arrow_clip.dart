@@ -17,10 +17,10 @@ class ArrowClipReversed extends CustomClipper<Path> {
 
     final path = Path();
     path.lineTo(width, 0);
-    // path.lineTo(width-cutLength, height / 2);
+    path.lineTo(width-cutLength, height / 2);
     path.lineTo(width, height);
     path.lineTo(0, height);
-    path.lineTo(cutLength.toDouble(), height / 2);
+    // path.lineTo(cutLength.toDouble(), height / 2);
     path.close();
     return path;
   }

@@ -1,1 +1,1 @@
-enum ValidationType { password, name, email, phone,common,confirmPassword }
+enum ValidationType { password, name, email, phone,common,confirmPassword,date }

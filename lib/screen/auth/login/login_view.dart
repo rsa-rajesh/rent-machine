@@ -9,7 +9,7 @@ import '../../widgets/input_fields.dart';
 import 'login_logic.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -35,39 +35,39 @@ class _LoginPageState extends State<LoginPage> {
                       height: 70,
                     ),
                   ),
-                  Gap(12),
-                  Text(
-                    "Rent Mechine",
+                  const Gap(12),
+                  const Text(
+                    "Rent Machine",
                     style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
-                  Text(
+                  const Text(
                     "version 1.0.0",
                     style: TextStyle(fontSize: 14, color: Colors.blue),
                   ),
-                  Gap(64),
-                  Text(
+                  const Gap(64),
+                  const Text(
                     "LOGIN",
                     style: TextStyle(
                         fontSize: 22,
                         color: Colors.black,
                         fontWeight: FontWeight.bold),
                   ),
-                  Gap(16),
+                  const Gap(16),
                   CostumeFormField(
-                    validationType: ValidationType.email,
-                    controller: logic.userNameController,
-                    hintText: "Enter your Username",
+                    validationType: ValidationType.phone,
+                    inputType: TextInputType.phone,
+                    controller: logic.phoneController,
+                    hintText: "Enter your Mobile Number",
                     onChanged: (){
                       setState(() {
-
                       });
                     },
-                    labelText: "Email",
+                    labelText: "Mobile Number",
                   ),
-                  Gap(16),
+                  const Gap(16),
                   CostumeFormField(
                     validationType: ValidationType.password,
                     controller: logic.passwordController,
@@ -75,11 +75,10 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: "Password",
                     onChanged: (){
                       setState(() {
-
                       });
                     },
                   ),
-                  Gap(64),
+                  const Gap(64),
                   CostumeButtons.common(
                     labelText: 'Login',
                     onPressed: () {

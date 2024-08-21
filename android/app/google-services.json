@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "222912676291",
+    "firebase_url": "https://rent-machine-3dddc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "rent-machine-3dddc",
+    "storage_bucket": "rent-machine-3dddc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:222912676291:android:83c499d9e2f208eae63d76",
+        "android_client_info": {
+          "package_name": "np.com.rajeshadhikari.rent_mechine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7704yTgcr4LKEqqnGUgrheYVAns278ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

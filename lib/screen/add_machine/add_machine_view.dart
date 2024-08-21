@@ -48,24 +48,30 @@ class _AddMachinePageState extends State<AddMachinePage> {
               Gap(12),
               Text("Add Photo"),
               Gap(6),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                height: 100,
-                width: 100,
-                child: Center(
-                  child: logic.imageFile == null
-                      ? Icon(Icons.add)
-                      : Image.file(logic.imageFile!),
+              GestureDetector(
+                onTap: (){
+                  logic.pickImage();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  height: 100,
+                  width: 100,
+                  child: Center(
+                    child: logic.pickedFile == null
+                        ? const Icon(Icons.add)
+                        : Image.file(logic.pickedFile!),
+                  ),
                 ),
               ),
-              Gap(62),
+              const Gap(62),
               CostumeButtons.common(
                 labelText: 'Add Machine',
                 onPressed: () {
-                  // logic.createUser();
+
+                  logic.addMachine();
                 },
                 isEnabled: logic.validateFields(),
               ),

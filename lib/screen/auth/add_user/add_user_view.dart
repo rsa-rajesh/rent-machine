@@ -1,8 +1,12 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
+import '../../../core/app_managers/color_manager.dart';
 import '../../../core/enums/validation_type.dart';
+import '../../../core/helper/input_validator.dart';
+import '../../dispatch_machine/dispatch_machine_logic.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/input_fields.dart';
 import 'add_user_logic.dart';
@@ -31,16 +35,6 @@ class _AddUserPageState extends State<AddUserPage> {
             child: Column(
               children: [
                 CostumeFormField(
-                  validationType: ValidationType.common,
-                  controller: logic.userNameController,
-                  hintText: "Select your Username",
-                  onChanged: () {
-                    setState(() {});
-                  },
-                  labelText: "Select User Name",
-                ),
-                Gap(12),
-                CostumeFormField(
                   validationType: ValidationType.name,
                   controller: logic.fullNameController,
                   hintText: "Full Name",
@@ -51,33 +45,42 @@ class _AddUserPageState extends State<AddUserPage> {
                 ),
                 Gap(12),
                 CostumeFormField(
-                  validationType: ValidationType.common,
+                  validationType: ValidationType.phone,
                   controller: logic.contactController,
-                  hintText: "Contact Information",
+                  hintText: "Contact",
                   onChanged: () {
                     setState(() {});
                   },
-                  labelText: "Contact Information",
+                  labelText: "Contact",
                 ),
                 Gap(12),
-                CostumeFormField(
-                  validationType: ValidationType.common,
-                  controller: logic.positionController,
-                  hintText: "Position",
-                  onChanged: () {
-                    setState(() {});
-                  },
-                  labelText: "Position",
-                ),
+                // CostumeFormField(
+                //   validationType: ValidationType.common,
+                //   controller: logic.positionController,
+                //   hintText: "Position",
+                //   onChanged: () {
+                //     setState(() {});
+                //   },
+                //   labelText: "Position",
+                // ),
+
+                _buildDropDownFormField(
+                    hintText: "Position",
+                    inputType: TextInputType.text,
+                    mainController: logic,
+                    onChanged: () {
+                      setState(() {});
+                    },
+                    controller: logic.positionController),
                 Gap(12),
                 CostumeFormField(
                   validationType: ValidationType.password,
                   controller: logic.passwordController,
-                  hintText: "Select your Password",
+                  hintText: "Password",
                   onChanged: () {
                     setState(() {});
                   },
-                  labelText: "Select your Password",
+                  labelText: "Password",
                 ),
                 Gap(12),
                 CostumeFormField.confirmPassword(
@@ -94,7 +97,7 @@ class _AddUserPageState extends State<AddUserPage> {
                 CostumeButtons.common(
                   labelText: 'Add User',
                   onPressed: () {
-                    // logic.createUser();
+                    logic.createUser();
                   },
                   isEnabled: logic.validateFields(),
                 ),
@@ -102,5 +105,62 @@ class _AddUserPageState extends State<AddUserPage> {
             ),
           ));
     });
+  }
+
+
+  Widget _buildDropDownFormField({
+    SingleValueDropDownController? controller,
+    TextInputType? inputType,
+    FocusNode? focusNode,
+    String? hintText,
+    VoidCallback? onChanged,
+    required AddUserLogic mainController,
+  }) {
+    return DropDownTextField(
+      controller: controller,
+      onChanged: (a) {
+        onChanged!();
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      keyboardType: inputType ?? TextInputType.emailAddress,
+      validator: (String? value) {
+        return InputValidators.simpleValidation(value);
+      },
+      // textStyle: GoogleFonts.inter(color: ColorManager.textDark),
+      // maxLength: maxLength ?? 36,
+      textFieldFocusNode: focusNode,
+      // obscureText: controller == mainController.passwordController ||controller == mainController.newPasswordController ||controller == mainController.confirmPasswordController||controller == mainController.confirmNewPasswordController,
+      textFieldDecoration: InputDecoration(
+        fillColor: ColorManager.white,
+        filled: true,
+        label: Text(hintText ?? ""),
+        counterText: '',
+        contentPadding: const EdgeInsets.all(16),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorManager.textDark,
+            ),
+            borderRadius: BorderRadius.circular(10)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black.withOpacity(0.1)),
+            borderRadius: BorderRadius.circular(10)),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorManager.errorOpacity50,
+            ),
+            borderRadius: BorderRadius.circular(10)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorManager.errorOpacity50,
+            ),
+            borderRadius: BorderRadius.circular(10)),
+        hintText: hintText ?? "",
+        hintStyle: TextStyle(
+          color: ColorManager.hintColor,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      dropDownList: mainController.userType,
+    );
   }
 }

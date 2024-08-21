@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:rent_mechine/core/app_managers/assets_managers.dart';
+import 'package:rent_mechine/routes/app_routes.dart';
 
 import 'welcome_logic.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,49 +20,59 @@ class WelcomePage extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    "Welcome :Username",
+                    "Welcome : ${logic.userName}",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Gap(32),
-                Card(
-                  color: Colors.green[100],
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          AssetManager.appLogo,
-                          width: 60,
-                        ),
-                        Gap(22),
-                        Text(
-                          "ADD MECHINE",
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.addMachineScreen);
+                  },
+                  child: Card(
+                    color: Colors.green[100],
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AssetManager.appLogo,
+                            width: 60,
+                          ),
+                          const Gap(22),
+                          const Text(
+                            "ADD MACHINE",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Gap(12),
-                Card(
-                  color: Colors.blue[100],
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          AssetManager.appLogo,
-                          width: 60,
-                        ),
-                        Gap(22),
-                        Text(
-                          "VIEW MECHINE",
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(AppRoutes.viewMachineScreen);
+                  },
+                  child: Card(
+                    color: Colors.blue[100],
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AssetManager.appLogo,
+                            width: 60,
+                          ),
+                          const Gap(22),
+                          const Text(
+                            "VIEW MACHINE",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 )

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../../core/app_managers/assets_managers.dart';
+import '../../routes/app_routes.dart';
 import 'view_machine_logic.dart';
 
 class ViewMachinePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
   Widget build(BuildContext context) {
     return GetBuilder<ViewMachineLogic>(builder: (logic) {
       return Scaffold(
-        backgroundColor: Colors.grey.shade100,
+          backgroundColor: Colors.grey.shade100,
           appBar: AppBar(
             title: Text("View Machine"),
             centerTitle: true,
@@ -31,6 +32,7 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                   onPressed: (int index) {
                     logic.isSelected = [false, false, false];
                     logic.isSelected[index] = true;
+                    logic.updateSelected();
                     setState(() {});
                   },
                   isSelected: logic.isSelected,
@@ -89,7 +91,8 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                           horizontal: 22, vertical: 4.0),
                       child: GestureDetector(
                         onTap: () {
-                          // Get.toNamed(AppRoutes.noticeDetailsScreen);
+                          logic.selectedMachine = logic.machines[index];
+                          Get.toNamed(AppRoutes.machineDetailsScreen);
                         },
                         child: Card(
                           child: Padding(
@@ -116,21 +119,25 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                                         const SizedBox(
                                           height: 4,
                                         ),
-                                        const SizedBox(
+                                        SizedBox(
                                           width: 200,
                                           child: Text(
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            "Type of Machine",
+                                            logic.machines[index].machineData
+                                                    ?.machineType ??
+                                                "",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
-                                        const Text(
+                                        Text(
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
-                                          "serial number",
+                                          logic.machines[index].machineData
+                                                  ?.serialNo ??
+                                              "",
                                           style: TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.normal),
@@ -140,7 +147,12 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                                             Spacer(),
                                             Container(
                                               decoration: BoxDecoration(
-                                                  color: Colors.green[100],
+                                                  color: logic
+                                                      .getStatusFillColor(logic
+                                                              .machines[index]
+                                                              .machineData
+                                                              ?.status ??
+                                                          ""),
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(12))),
@@ -150,10 +162,20 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                                                         horizontal: 12,
                                                         vertical: 4),
                                                 child: Text(
-                                                  "status",
+                                                  logic
+                                                          .machines[index]
+                                                          .machineData
+                                                          ?.status ??
+                                                      "",
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Colors.green[900]),
+                                                      color: logic
+                                                          .getStatusColor(logic
+                                                                  .machines[
+                                                                      index]
+                                                                  .machineData
+                                                                  ?.status ??
+                                                              "")),
                                                 ),
                                               ),
                                             )
@@ -170,7 +192,7 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                       ),
                     );
                   },
-                  itemCount: 5,
+                  itemCount: logic.machines.length,
                 ),
               ),
             ],
