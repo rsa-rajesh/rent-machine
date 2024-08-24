@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:rent_mechine/core/error_ui/no_offer.dart';
 import '../../core/app_managers/assets_managers.dart';
 import '../../routes/app_routes.dart';
 import 'view_machine_logic.dart';
@@ -19,12 +20,12 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
       return Scaffold(
           backgroundColor: Colors.grey.shade100,
           appBar: AppBar(
-            title: Text("View Machine"),
+            title: const Text("View Machine"),
             centerTitle: true,
           ),
           body: Column(
             children: [
-              Gap(12),
+              const Gap(12),
               ToggleButtons(
                   fillColor: logic.getSelectedFillColor(),
                   selectedColor: logic.getSelectedColor(),
@@ -81,7 +82,7 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                     ),
                   ]),
               Expanded(
-                child: ListView.builder(
+                child:  logic.machines.isNotEmpty? ListView.builder(
                   scrollDirection: Axis.vertical,
                   // shrinkWrap: true,
                   // physics: NeverScrollableScrollPhysics(),
@@ -93,6 +94,10 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                         onTap: () {
                           logic.selectedMachine = logic.machines[index];
                           Get.toNamed(AppRoutes.machineDetailsScreen);
+                        },
+                        onLongPress: (){
+                          logic.selectedMachine = logic.machines[index];
+                          logic.showOptionsDialog();
                         },
                         child: Card(
                           child: Padding(
@@ -193,7 +198,7 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                     );
                   },
                   itemCount: logic.machines.length,
-                ),
+                ):const NoOffer(),
               ),
             ],
           ));

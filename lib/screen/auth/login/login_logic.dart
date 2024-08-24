@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rent_mechine/routes/app_routes.dart';
 import '../../../core/helper/input_validator.dart';
+import '../../../core/widgets/loading_dialog.dart';
 import '../../../models/users_list_model.dart';
 
 class LoginLogic extends GetxController {
@@ -22,6 +24,19 @@ class LoginLogic extends GetxController {
   }
 
   void login() async {
+
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return const Loading(
+          'loading...',
+          false,
+        );
+      },
+    );
+
     await databaseReference
         .child("users")
         .orderByChild("contact")
@@ -37,6 +52,16 @@ class LoginLogic extends GetxController {
 
     if (userData.isEmpty) {
       print("user not found");
+      navigator?.pop();
+      Fluttertoast.showToast(
+          msg: "User not found",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     } else {
       bool isPasswordValid = false;
       for (var a in userData) {
@@ -44,12 +69,24 @@ class LoginLogic extends GetxController {
           isPasswordValid = true;
           storage.write("name", a.fullName);
           storage.write("role", a.position);
+          storage.write("login", true);
         }
       }
       if(isPasswordValid){
-        Get.toNamed(AppRoutes.welcomeScreen);
+        navigator?.pop();
+        Get.offAndToNamed(AppRoutes.welcomeScreen);
       }else{
+        navigator?.pop();
         print("user or password do not match");
+        Fluttertoast.showToast(
+            msg: "user or password do not match",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
 
     }

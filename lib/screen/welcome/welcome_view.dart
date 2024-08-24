@@ -24,33 +24,8 @@ class WelcomePage extends StatelessWidget {
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ),
+
                 Gap(32),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.addMachineScreen);
-                  },
-                  child: Card(
-                    color: Colors.green[100],
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            AssetManager.appLogo,
-                            width: 60,
-                          ),
-                          const Gap(22),
-                          const Text(
-                            "ADD MACHINE",
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Gap(12),
                 GestureDetector(
                   onTap: (){
                     Get.toNamed(AppRoutes.viewMachineScreen);
@@ -75,7 +50,93 @@ class WelcomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
+                Visibility(
+                  visible: logic.isAdmin(),
+                  child: Column(
+                    children: [
+                      Gap(12),
+                      GestureDetector(
+                        onTap: () {
+                          logic.addMachine();
+                        },
+                        child: Card(
+                          color: Colors.green[100],
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  AssetManager.appLogo,
+                                  width: 60,
+                                ),
+                                const Gap(22),
+                                const Text(
+                                  "ADD MACHINE",
+                                  style: TextStyle(
+                                      fontSize: 25, fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Gap(12),
+                      GestureDetector(
+                        onTap: (){
+                          Get.toNamed(AppRoutes.listUserScreen);
+                        },
+                        child: Card(
+                          color: Colors.blue[100],
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  AssetManager.userLogo,
+                                  width: 60,
+                                ),
+                                const Gap(22),
+                                const Text(
+                                  "USERS LIST",
+                                  style: TextStyle(
+                                      fontSize: 25, fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Gap(12),
+                GestureDetector(
+                  onTap: (){
+                    logic.logout();
+                  },
+                  child: Card(
+                    color: Colors.blue[100],
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            AssetManager.logoutLogo,
+                            width: 60,
+                          ),
+                          const Gap(22),
+                          const Text(
+                            "LOG OUT",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),

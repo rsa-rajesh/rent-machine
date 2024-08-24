@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rent_mechine/routes/app_routes.dart';
 
+import '../../core/widgets/costume_dialog_with_cross.dart';
 import '../../models/machine_list_model.dart';
 
 class ViewMachineLogic extends GetxController {
@@ -116,5 +117,47 @@ class ViewMachineLogic extends GetxController {
   void rentMachine(String? key) {
     storage.write("machineKey", key);
     Get.toNamed(AppRoutes.machineDispatchScreen);
+  }
+
+  void showOptionsDialog() {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return CostumeDialogWithCross(
+          title: 'User Options',
+          button2Enabled: true,
+          buttom1Lavel: "Update",
+          onButton1Clicked: () {
+            storage.write("is_update_machine", true);
+            storage.write("update_machine_id", selectedMachine?.key);
+            storage.write("update_machine", selectedMachine?.machineData?.toJson());
+            Get.toNamed(AppRoutes.addMachineScreen);
+          },
+          onButton2Clicked: () {
+            deleteMachine(selectedMachine?.key??"");
+          },
+          buttom2Lavel: "Delete",
+          message: 'Do you like to delete or update this user',
+          titleColor: Colors.red,
+        );
+      },
+    );
+  }
+
+  void deleteMachine(String key) async{
+    await databaseReference.child("machine/$key").remove().then((value) async {
+      await databaseReference.child("machine").get().then((value) {
+        machinesOriginal.clear();
+        for (DataSnapshot snapshot in value.children) {
+          MachineData machineData = MachineData.fromJson(
+              Map<String, dynamic>.from(snapshot.value as Map));
+          machinesOriginal
+              .add(Machine(key: snapshot.key, machineData: machineData));
+        }
+      });
+      updateSelected();
+    });
   }
 }

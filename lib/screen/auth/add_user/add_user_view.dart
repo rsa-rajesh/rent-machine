@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../core/app_managers/color_manager.dart';
 import '../../../core/enums/validation_type.dart';
 import '../../../core/helper/input_validator.dart';
-import '../../dispatch_machine/dispatch_machine_logic.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/input_fields.dart';
 import 'add_user_logic.dart';
@@ -26,7 +25,7 @@ class _AddUserPageState extends State<AddUserPage> {
     return GetBuilder<AddUserLogic>(builder: (logic) {
       return Scaffold(
           appBar: AppBar(
-            title: Text("Add User"),
+            title: logic.isUpdate?const Text("Update User"):const Text("Add User"),
             centerTitle: true,
           ),
           backgroundColor: Colors.grey.shade100,
@@ -93,11 +92,11 @@ class _AddUserPageState extends State<AddUserPage> {
                   labelText: "Confirm Password",
                   passwordController: logic.passwordController,
                 ),
-                Gap(62),
+                const Gap(62),
                 CostumeButtons.common(
-                  labelText: 'Add User',
+                  labelText: logic.isUpdate?"Update User":"Add User",
                   onPressed: () {
-                    logic.createUser();
+                    logic.isUpdate?logic.updateUserDb(): logic.createUser();
                   },
                   isEnabled: logic.validateFields(),
                 ),

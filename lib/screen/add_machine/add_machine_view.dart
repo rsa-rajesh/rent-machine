@@ -19,7 +19,7 @@ class _AddMachinePageState extends State<AddMachinePage> {
     return GetBuilder<AddMachineLogic>(builder: (logic) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Add Machine"),
+          title: logic.isUpdate?const Text("Update Machine"):const Text("Add Machine"),
           centerTitle: true,
         ),
         body: Padding(
@@ -52,25 +52,28 @@ class _AddMachinePageState extends State<AddMachinePage> {
                 onTap: (){
                   logic.pickImage();
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  height: 100,
-                  width: 100,
-                  child: Center(
-                    child: logic.pickedFile == null
-                        ? const Icon(Icons.add)
-                        : Image.file(logic.pickedFile!),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    height: 100,
+                    width: 100,
+                    child: Center(
+                      child: logic.pickedFile == null
+                          ? logic.isUpdate?Image.network(logic.imageUrl):const Icon(Icons.add)
+                          : Image.file(logic.pickedFile!),
+                    ),
                   ),
                 ),
               ),
               const Gap(62),
               CostumeButtons.common(
-                labelText: 'Add Machine',
+                labelText: logic.isUpdate?"Update Machine":'Add Machine',
                 onPressed: () {
-
+                  logic.isUpdate?logic.updateMachineDate():
                   logic.addMachine();
                 },
                 isEnabled: logic.validateFields(),

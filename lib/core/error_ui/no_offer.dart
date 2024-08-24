@@ -14,8 +14,9 @@ class NoOffer extends StatefulWidget {
 class _NoOfferState extends State<NoOffer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return  Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -26,9 +27,9 @@ class _NoOfferState extends State<NoOffer> {
             //   ),
             //   fit: BoxFit.cover,
             // ),
-            const Gap(12),
-            const Text(
-              'No current offer available',
+            Gap(12),
+            Text(
+              'No machine available',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF42526D),
@@ -36,9 +37,9 @@ class _NoOfferState extends State<NoOffer> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 10),
-            const Text(
-              'Please visit again to know if offer is available or not. ',
+            SizedBox(height: 10),
+            Text(
+              'There are no any machines on this section',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFF4A4A4A),
@@ -46,12 +47,7 @@ class _NoOfferState extends State<NoOffer> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            const Gap(12),
-            OutlinedButton(
-                onPressed: () {
-                  widget.onRetry!();
-                },
-                child: const Text("Retry"))
+            Gap(12),
           ],
         ),
       ),

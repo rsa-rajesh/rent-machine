@@ -7,4 +7,7 @@ class AppRoutes{
   static const viewMachineScreen = "/viewMachineScreen";
   static const machineDetailsScreen = "/machineDetailsScreen";
   static const machineDispatchScreen = "/machineDispatchScreen";
+
+  static const listUserScreen = "/listUserScreen";
+
 }

@@ -4,8 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rent_mechine/models/machine_list_model.dart';
 
 import '../../core/helper/input_validator.dart';
 
@@ -13,10 +15,15 @@ class AddMachineLogic extends GetxController {
   TextEditingController serialNoController = TextEditingController();
   TextEditingController typeOfMachineController = TextEditingController();
   File? pickedFile;
+  String imageUrl = "";
   DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
-  FirebaseStorage storage = FirebaseStorage.instance;
+  FirebaseStorage fbStorage = FirebaseStorage.instance;
 
-  // final ImagePicker _picker = ImagePicker();
+  // List<MachineData> machineData = [];
+  MachineData? updateMachine;
+  String? updateKey;
+  final storage = GetStorage();
+  bool isUpdate = false;
 
   validateFields() {
     if (InputValidators.simpleValidation(serialNoController.text) == null &&
@@ -28,9 +35,20 @@ class AddMachineLogic extends GetxController {
     return false;
   }
 
-  // void pickImage() {
-  //
-  // }
+  @override
+  void onInit() {
+    if (storage.read("is_update_machine")) {
+      updateMachine = MachineData.fromJson(storage.read("update_machine"));
+      updateKey = storage.read("update_machine_id");
+      if (updateMachine != null) {
+        serialNoController.text = updateMachine!.serialNo ?? "";
+        typeOfMachineController.text = updateMachine!.machineType ?? "";
+        imageUrl = updateMachine!.machinePhoto ?? "";
+        isUpdate = true;
+      }
+    }
+    super.onInit();
+  }
 
   pickImage() async {
     File? file = await pickSingleImage(ImageSource.camera);
@@ -91,7 +109,7 @@ class AddMachineLogic extends GetxController {
     String fileName = DateTime.now()
         .millisecondsSinceEpoch
         .toString(); // Generate a unique file name
-    Reference storageRef = storage.ref().child('uploads/$fileName');
+    Reference storageRef = fbStorage.ref().child('uploads/$fileName');
 
     // Upload the file
     UploadTask uploadTask = storageRef.putFile(pickedFile!);
@@ -105,7 +123,27 @@ class AddMachineLogic extends GetxController {
       "serialNo": serialNoController.text,
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
-      "status" : "available"
-    }).then((value) => {print("User Created")});
+      "status": "available"
+    }).then((value) => {print("Machine Created")});
+  }
+
+  updateMachineDate() async {
+    String fileName = DateTime.now()
+        .millisecondsSinceEpoch
+        .toString(); // Generate a unique file name
+    Reference storageRef = fbStorage.ref().child('uploads/$fileName');
+
+    // Upload the file
+    UploadTask uploadTask = storageRef.putFile(pickedFile!);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    // Get the download URL
+    String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+    print(downloadUrl);
+
+    databaseReference.child("machine/$updateKey").update({
+      "serialNo": serialNoController.text,
+      "machineType": typeOfMachineController.text,
+      "machinePhoto": downloadUrl,
+    }).then((value) => {print("Machine Updated")});
   }
 }

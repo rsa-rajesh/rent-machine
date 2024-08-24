@@ -3,6 +3,8 @@ import 'package:rent_mechine/screen/add_machine/add_machine_binding.dart';
 import 'package:rent_mechine/screen/add_machine/add_machine_view.dart';
 import 'package:rent_mechine/screen/auth/add_user/add_user_binding.dart';
 import 'package:rent_mechine/screen/auth/add_user/add_user_view.dart';
+import 'package:rent_mechine/screen/auth/list_user/list_user_binding.dart';
+import 'package:rent_mechine/screen/auth/list_user/list_user_view.dart';
 import 'package:rent_mechine/screen/auth/login/login_binding.dart';
 import 'package:rent_mechine/screen/auth/login/login_view.dart';
 import 'package:rent_mechine/screen/dispatch_machine/dispatch_machine_binding.dart';
@@ -45,5 +47,13 @@ class AppPages {
         name: AppRoutes.machineDispatchScreen,
         page: () => const DispatchMachinePage(),
         binding: DispatchMachineBinding()),
+    GetPage(
+        name: AppRoutes.loginScreen,
+        page: () => const LoginPage(),
+        binding: LoginBinding()),
+    GetPage(
+        name: AppRoutes.listUserScreen,
+        page: () => const ListUserPage(),
+        binding: ListUserBinding()),
   ];
 }

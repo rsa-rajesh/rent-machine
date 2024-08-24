@@ -5,6 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:rent_mechine/routes/app_pages.dart';
 import 'package:rent_mechine/screen/auth/login/login_binding.dart';
 import 'package:rent_mechine/screen/auth/login/login_view.dart';
+import 'package:rent_mechine/screen/welcome/welcome_binding.dart';
+import 'package:rent_mechine/screen/welcome/welcome_view.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,7 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-
   );
   runApp(const MyApp());
 }
@@ -36,8 +37,13 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
-      initialBinding: LoginBinding(),
+      home: (storage.read("login") != null && storage.read("login") == true)
+          ? const WelcomePage()
+          : const LoginPage(),
+      initialBinding:
+          (storage.read("login") != null && storage.read("login") == true)
+              ? WelcomeBinding()
+              : LoginBinding(),
       getPages: AppPages.pages,
     );
   }

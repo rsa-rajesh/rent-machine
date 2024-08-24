@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:rent_mechine/models/users_list_model.dart';
 
 import '../../../core/helper/input_validator.dart';
@@ -19,6 +22,10 @@ class AddUserLogic extends GetxController {
   ];
 
   List<UserData> userData = [];
+  UserData? updateUser;
+  String? updateKey;
+  final storage = GetStorage();
+  bool isUpdate = false;
 
   validateFields() {
     if (InputValidators.nameValidation(fullNameController.text) == null &&
@@ -38,14 +45,17 @@ class AddUserLogic extends GetxController {
 
   @override
   void onInit() {
-    // databaseReference.child("users").orderByChild("fullName").equalTo("rajesh adhikari").get().then((value) {
-    //   for (DataSnapshot snapshot in value.children) {
-    //     UserData userDataa = UserData.fromJson(Map<String, dynamic>.from (snapshot.value as Map));
-    //     userData.add(userDataa);
-    //
-    //   }
-    // });
-    // print(userData[0].fullName);
+    if (storage.read("is_update_user")) {
+      updateUser = UserData.fromJson(storage.read("update_user"));
+      updateKey = storage.read("update_user_id");
+      if (updateUser != null) {
+        fullNameController.text = updateUser!.fullName ?? "";
+        contactController.text = updateUser!.contact ?? "";
+        passwordController.text = updateUser!.password ?? "";
+        confirmPasswordController.text = updateUser!.password ?? "";
+        isUpdate = true;
+      }
+    }
     super.onInit();
   }
 
@@ -56,6 +66,7 @@ class AddUserLogic extends GetxController {
         .equalTo(contactController.text)
         .get()
         .then((value) {
+
       for (DataSnapshot snapshot in value.children) {
         UserData userDataa =
             UserData.fromJson(Map<String, dynamic>.from(snapshot.value as Map));
@@ -71,7 +82,16 @@ class AddUserLogic extends GetxController {
         "password": passwordController.text,
       }).then((value) => {print("User Created")});
     } else {
-      print("user already created for this user");
+      print("user already created for this contact");
     }
+  }
+
+  updateUserDb() {
+    databaseReference.child("users/$updateKey").update({
+      "fullName": fullNameController.text,
+      "contact": contactController.text,
+      "position": positionController.dropDownValue?.value ?? "user",
+      "password": passwordController.text
+    }).then((value) => {print("User updated")});
   }
 }
