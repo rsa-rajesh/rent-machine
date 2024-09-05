@@ -106,6 +106,8 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
       onTap: () async{
         if (widget.validationType == ValidationType.date) {
           widget.controller?.text =  await getDate();
+          widget.onChanged!();
+
         }
       },
       child: TextFormField(
@@ -117,7 +119,6 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
               : false,
           onChanged: (a) {
             // setState(() {
-            //
             // });
             widget.onChanged!();
           },
@@ -213,6 +214,10 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
       lastDate: NepaliDateTime(2090),
       initialDatePickerMode: DatePickerMode.day,
     );
-    return selectedDateTime.toString().split(" ")[0];
+    if(selectedDateTime!=null){
+      return selectedDateTime.toString().split(" ")[0];
+    }else {
+      return "";
+    }
   }
 }

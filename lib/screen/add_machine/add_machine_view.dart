@@ -35,7 +35,7 @@ class _AddMachinePageState extends State<AddMachinePage> {
                 },
                 labelText: "Serial No",
               ),
-              Gap(12),
+              const Gap(12),
               CostumeFormField(
                 validationType: ValidationType.common,
                 controller: logic.typeOfMachineController,
@@ -45,15 +45,15 @@ class _AddMachinePageState extends State<AddMachinePage> {
                 },
                 labelText: "Type of Machine",
               ),
-              Gap(12),
-              Text("Add Photo"),
-              Gap(6),
+              const Gap(12),
+              const Text("Add Photo"),
+              const Gap(6),
               GestureDetector(
                 onTap: (){
                   logic.pickImage();
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,

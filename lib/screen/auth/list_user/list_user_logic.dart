@@ -9,8 +9,9 @@ import '../../../routes/app_routes.dart';
 
 class ListUserLogic extends GetxController {
   DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
-  List<Users> user= [];
+  List<Users> user = [];
   final storage = GetStorage();
+  bool isLoading = true;
 
   @override
   void onInit() async {
@@ -54,6 +55,7 @@ class ListUserLogic extends GetxController {
         user.add(Users(key: snapshot.key, userData: userDatas));
       }
     });
+    isLoading = false;
     update();
   }
 

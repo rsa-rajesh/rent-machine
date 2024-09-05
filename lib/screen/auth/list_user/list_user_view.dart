@@ -22,98 +22,115 @@ class ListUserPage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                // shrinkWrap: true,
-                // physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 22, vertical: 4.0),
-                    child: GestureDetector(
-                      onLongPress: () {
-                        logic.showDialogs(logic.user[index]);
-                      },
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: 200,
-                                    child: Text(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      logic.user[index].userData?.fullName ??
-                                          "-",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Text(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    logic.user[index].userData?.contact ?? "-",
-                                    style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Spacer(),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: (logic.user[index].userData
-                                                                ?.position ??
-                                                            "-")
-                                                        .toLowerCase() ==
-                                                    "admin"
-                                                ? Colors.green.shade100
-                                                : Colors.red.shade100,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(12))),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 12, vertical: 4),
+            logic.isLoading
+                ? const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      // shrinkWrap: true,
+                      // physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 22, vertical: 4.0),
+                          child: GestureDetector(
+                            onLongPress: () {
+                              logic.showDialogs(logic.user[index]);
+                            },
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: 200,
                                           child: Text(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                             logic.user[index].userData
-                                                    ?.position ??
+                                                    ?.fullName ??
                                                 "-",
                                             style: TextStyle(
-                                              color: (logic.user[index].userData
-                                                                  ?.position ??
-                                                              "-")
-                                                          .toLowerCase() ==
-                                                      "admin"
-                                                  ? Colors.green.shade900
-                                                  : Colors.red.shade900,
-                                              fontSize: 14,
-                                            ),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  )
-                                ],
+                                        Text(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          logic.user[index].userData?.contact ??
+                                              "-",
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Spacer(),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: (logic
+                                                                      .user[
+                                                                          index]
+                                                                      .userData
+                                                                      ?.position ??
+                                                                  "-")
+                                                              .toLowerCase() ==
+                                                          "admin"
+                                                      ? Colors.green.shade100
+                                                      : Colors.red.shade100,
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(12))),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4),
+                                                child: Text(
+                                                  logic.user[index].userData
+                                                          ?.position ??
+                                                      "-",
+                                                  style: TextStyle(
+                                                    color: (logic
+                                                                        .user[
+                                                                            index]
+                                                                        .userData
+                                                                        ?.position ??
+                                                                    "-")
+                                                                .toLowerCase() ==
+                                                            "admin"
+                                                        ? Colors.green.shade900
+                                                        : Colors.red.shade900,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
+                      itemCount: logic.user.length,
                     ),
-                  );
-                },
-                itemCount: logic.user.length,
-              ),
-            ),
+                  ),
           ],
         ),
       );

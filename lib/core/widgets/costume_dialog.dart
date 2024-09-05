@@ -114,7 +114,7 @@ class CostumeDialog extends StatelessWidget {
                                               borderRadius:
                                               BorderRadius.circular(12.0)),
                                           backgroundColor:
-                                          ColorManager.primary),
+                                          titleColor),
                                       child: Padding(
                                         padding: const EdgeInsets.all(14),
                                         child: Text(
@@ -145,7 +145,7 @@ class CostumeDialog extends StatelessWidget {
                                               borderRadius:
                                               BorderRadius.circular(12.0)),
                                           backgroundColor: const Color.fromARGB(
-                                              255, 219, 223, 170),
+                                              255, 250, 128, 2),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(14),

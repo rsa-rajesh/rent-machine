@@ -156,7 +156,9 @@ class _DispatchMachinePageState extends State<DispatchMachinePage> {
                           controller: logic.endDateController,
                           hintText: "End date",
                           onChanged: () {
-                            setState(() {});
+                            setState(() {
+
+                            });
                           },
                           labelText: "End date",
                         ),
