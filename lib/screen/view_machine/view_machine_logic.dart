@@ -26,17 +26,8 @@ class ViewMachineLogic extends GetxController {
 
   @override
   void onInit() async {
-    await databaseReference.child("machine").get().then((value) {
-      machinesOriginal.clear();
-      for (DataSnapshot snapshot in value.children) {
-        MachineData machineData = MachineData.fromJson(
-            Map<String, dynamic>.from(snapshot.value as Map));
-        machinesOriginal
-            .add(Machine(key: snapshot.key, machineData: machineData));
-      }
-    });
-    print(machinesOriginal[0].machineData?.machineType);
-    updateSelected();
+    getData();
+
     super.onInit();
   }
 
@@ -215,8 +206,11 @@ class ViewMachineLogic extends GetxController {
       },
     );
 
+    var machineId = selectedMachine?.key;
+
     databaseReference
-        .child("machine/${storage.read("machineKey")}")
+        // .child("machine/${storage.read("machineKey")}")
+        .child("machine/${selectedMachine?.key}")
         .update({"dispatcherName": storage.read("name"), "status": "available"})
         .then((value) => {isError1 = false})
         .catchError((onError) => {isError1 = true});
@@ -259,6 +253,8 @@ class ViewMachineLogic extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
+      Get.back();
+
       await databaseReference.child("machine").get().then((value) {
         machinesOriginal.clear();
         for (DataSnapshot snapshot in value.children) {
@@ -270,7 +266,29 @@ class ViewMachineLogic extends GetxController {
       });
       print(machinesOriginal[0].machineData?.machineType);
       updateSelected();
-      Get.back();
+    }
+  }
+
+  void getData() async{
+    await databaseReference.child("machine").get().then((value) {
+      machinesOriginal.clear();
+      for (DataSnapshot snapshot in value.children) {
+        MachineData machineData = MachineData.fromJson(
+            Map<String, dynamic>.from(snapshot.value as Map));
+        machinesOriginal
+            .add(Machine(key: snapshot.key, machineData: machineData));
+      }
+    });
+    print(machinesOriginal[0].machineData?.machineType);
+    updateSelected();
+  }
+
+  isAdmin() {
+    if(storage.read("role").toString().toLowerCase()=="admin"){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 }

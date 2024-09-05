@@ -7,7 +7,7 @@ import '../../routes/app_routes.dart';
 import 'view_machine_logic.dart';
 
 class ViewMachinePage extends StatefulWidget {
-  const ViewMachinePage({Key? key}) : super(key: key);
+  const ViewMachinePage({super.key});
 
   @override
   State<ViewMachinePage> createState() => _ViewMachinePageState();
@@ -94,8 +94,10 @@ class _ViewMachinePageState extends State<ViewMachinePage> {
                           Get.toNamed(AppRoutes.machineDetailsScreen);
                         },
                         onLongPress: (){
-                          logic.selectedMachine = logic.machines[index];
-                          logic.showOptionsDialog();
+                          if(logic.isAdmin()){
+                            logic.selectedMachine = logic.machines[index];
+                            logic.showOptionsDialog();
+                          }
                         },
                         child: Card(
                           child: Padding(

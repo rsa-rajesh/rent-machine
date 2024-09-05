@@ -9,6 +9,7 @@ import 'package:rent_mechine/routes/app_routes.dart';
 
 import '../../core/helper/input_validator.dart';
 import '../../core/widgets/loading_dialog.dart';
+import '../view_machine/view_machine_logic.dart';
 
 class DispatchMachineLogic extends GetxController {
   TextEditingController dispatchedToController = TextEditingController();
@@ -114,7 +115,12 @@ class DispatchMachineLogic extends GetxController {
           backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 16.0);
+
+      final ViewMachineLogic c = Get.find();
+      c.getData();
       Get.back();
+      Get.back();
+
     }
   }
 }

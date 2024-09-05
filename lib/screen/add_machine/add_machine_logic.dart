@@ -2,24 +2,25 @@ import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rent_mechine/models/machine_list_model.dart';
-
+import 'package:rent_mechine/screen/view_machine/view_machine_logic.dart';
 import '../../core/helper/input_validator.dart';
+import '../../core/widgets/loading_dialog.dart';
 
 class AddMachineLogic extends GetxController {
+
   TextEditingController serialNoController = TextEditingController();
   TextEditingController typeOfMachineController = TextEditingController();
   File? pickedFile;
   String imageUrl = "";
   DatabaseReference databaseReference = FirebaseDatabase.instance.ref();
   FirebaseStorage fbStorage = FirebaseStorage.instance;
-
-  // List<MachineData> machineData = [];
   MachineData? updateMachine;
   String? updateKey;
   final storage = GetStorage();
@@ -27,8 +28,7 @@ class AddMachineLogic extends GetxController {
 
   validateFields() {
     if (InputValidators.simpleValidation(serialNoController.text) == null &&
-        InputValidators.simpleValidation(typeOfMachineController.text) ==
-            null &&
+        InputValidators.simpleValidation(typeOfMachineController.text) == null &&
         pickedFile != null) {
       return true;
     }
@@ -61,7 +61,6 @@ class AddMachineLogic extends GetxController {
   Future<File?> pickSingleImage(ImageSource source) async {
     try {
       final picker = ImagePicker();
-
       final XFile? image = await picker.pickImage(source: source);
       if (image != null) {
         final file = File(image.path);
@@ -101,11 +100,22 @@ class AddMachineLogic extends GetxController {
       ],
       compressQuality: 50,
     );
-    // debugPrint()
     return croppedImage;
   }
 
   void addMachine() async {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return const Loading(
+         'Adding Machine...',
+          false,
+        );
+      },
+    );
+
     String fileName = DateTime.now()
         .millisecondsSinceEpoch
         .toString(); // Generate a unique file name
@@ -125,9 +135,31 @@ class AddMachineLogic extends GetxController {
       "machinePhoto": downloadUrl,
       "status": "available"
     }).then((value) => {print("Machine Created")});
+    navigator?.pop();
+
+    Fluttertoast.showToast(
+        msg: "New Machine Added",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green[900],
+        textColor: Colors.white,
+        fontSize: 16.0);
+    Get.back();
   }
 
   updateMachineDate() async {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return const Loading(
+          "Updating Machine..",
+          false,
+        );
+      },
+    );
     String fileName = DateTime.now()
         .millisecondsSinceEpoch
         .toString(); // Generate a unique file name
@@ -145,5 +177,10 @@ class AddMachineLogic extends GetxController {
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
     }).then((value) => {print("Machine Updated")});
+
+    final ViewMachineLogic c = Get.find();
+    c.getData();
+    navigator?.pop();
+    Get.back();
   }
 }
