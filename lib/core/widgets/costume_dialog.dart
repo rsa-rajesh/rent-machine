@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../app_managers/assets_managers.dart';
-import '../app_managers/color_manager.dart';
 
 class CostumeDialog extends StatelessWidget {
   final String message;
@@ -17,7 +16,7 @@ class CostumeDialog extends StatelessWidget {
   final Color titleColor;
 
   const CostumeDialog({
-    Key? key,
+    super.key,
     this.message = "Process Successfully Completed",
     this.title = 'Success',
     this.image = AssetManager.appLogo,
@@ -29,7 +28,7 @@ class CostumeDialog extends StatelessWidget {
     this.onButton2Clicked,
     this.buttom1Lavel = 'OK',
     this.buttom2Lavel = 'Retry',
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

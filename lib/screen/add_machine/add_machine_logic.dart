@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -14,7 +14,6 @@ import '../../core/helper/input_validator.dart';
 import '../../core/widgets/loading_dialog.dart';
 
 class AddMachineLogic extends GetxController {
-
   TextEditingController serialNoController = TextEditingController();
   TextEditingController typeOfMachineController = TextEditingController();
   File? pickedFile;
@@ -28,7 +27,8 @@ class AddMachineLogic extends GetxController {
 
   validateFields() {
     if (InputValidators.simpleValidation(serialNoController.text) == null &&
-        InputValidators.simpleValidation(typeOfMachineController.text) == null &&
+        InputValidators.simpleValidation(typeOfMachineController.text) ==
+            null &&
         pickedFile != null) {
       return true;
     }
@@ -110,7 +110,7 @@ class AddMachineLogic extends GetxController {
       builder: (BuildContext context) {
         context = context;
         return const Loading(
-         'Adding Machine...',
+          'Adding Machine...',
           false,
         );
       },
@@ -127,14 +127,17 @@ class AddMachineLogic extends GetxController {
 
     // Get the download URL
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-    print(downloadUrl);
+    if (kDebugMode) {
+      print(downloadUrl);
+    }
 
     databaseReference.child("machine").push().set({
       "serialNo": serialNoController.text,
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
       "status": "available"
-    }).then((value) => {print("Machine Created")});
+    }).then((value) => {        if (kDebugMode) {
+    print("Machine Created")}});
     navigator?.pop();
 
     Fluttertoast.showToast(
@@ -170,13 +173,17 @@ class AddMachineLogic extends GetxController {
     TaskSnapshot taskSnapshot = await uploadTask;
     // Get the download URL
     String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-    print(downloadUrl);
+    if (kDebugMode) {
+      print(downloadUrl);
+    }
 
     databaseReference.child("machine/$updateKey").update({
       "serialNo": serialNoController.text,
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
-    }).then((value) => {print("Machine Updated")});
+    }).then((value) => {
+          if (kDebugMode) {print("Machine Updated")}
+        });
 
     final ViewMachineLogic c = Get.find();
     c.getData();

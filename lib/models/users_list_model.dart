@@ -9,6 +9,7 @@ class UserData {
   String? fullName;
   String? password;
   String? position;
+  String? userPhoto;
 
   UserData({this.contact, this.fullName, this.password, this.position});
 
@@ -17,6 +18,8 @@ class UserData {
     fullName = json['fullName'];
     position = json['position'];
     password = json['password'];
+    userPhoto = json['userPhoto'];
+
   }
 
 
@@ -26,6 +29,8 @@ class UserData {
     data['fullName'] = fullName;
     data['position'] = position;
     data['password'] = password;
+    data['userPhoto'] = userPhoto;
+
     return data;
   }
 }

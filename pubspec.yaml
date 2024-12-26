@@ -39,7 +39,7 @@ dependencies:
   get_storage: ^2.1.1
 #  dio: ^5.5.0+1
   # material_symbols_icons: ^4.2758.0
-#  permission_handler: ^11.3.1
+  permission_handler: ^11.3.1
   # device_info_plus: ^10.1.0
   flutter_local_notifications: ^17.2.2
   gap: ^3.0.1
@@ -57,6 +57,9 @@ dependencies:
   dropdown_textfield: ^1.2.0
   # add this line to your dependencies
   fluttertoast: ^8.2.8
+  firebase_analytics: ^11.1.0
+  firebase_messaging: ^15.0.2
+  nepali_utils: ^3.0.6
   #  sqflite: ^2.3.3+1
   # jwt_decoder: ^2.0.1
 
@@ -64,7 +67,7 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/images/logo221.jpg"
+  image_path: "assets/icons/geo_logo.png"
 
 
 dev_dependencies:
@@ -76,7 +79,8 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
+  rename_app: ^1.6.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

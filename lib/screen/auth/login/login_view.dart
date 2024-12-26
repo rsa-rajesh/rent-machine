@@ -20,79 +20,88 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return GetBuilder<LoginLogic>(builder: (logic) {
       return Scaffold(
-        backgroundColor: Colors.grey[100],
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(22.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipOval(
-                    child: Image.asset(
-                      AssetManager.appLogo,
-                      width: 70,
-                      height: 70,
+        body: Stack(
+          children: [
+            SizedBox(
+                height: double.infinity,
+                child: Image.asset(
+                  AssetManager.bg3,
+                  height: double.infinity,
+                  fit: BoxFit.fitHeight,
+                )),
+            Container(
+              color: Colors.black.withAlpha(150),
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 22.0, vertical: 60),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ClipOval(
+                      child: Image.asset(
+                        AssetManager.appLogo,
+                        width: 100,
+                        height: 100,
+                      ),
                     ),
-                  ),
-                  const Gap(12),
-                  const Text(
-                    "Rent Machine",
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const Text(
-                    "version 1.0.0",
-                    style: TextStyle(fontSize: 14, color: Colors.blue),
-                  ),
-                  const Gap(64),
-                  const Text(
-                    "LOGIN",
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const Gap(16),
-                  CostumeFormField(
-                    validationType: ValidationType.phone,
-                    inputType: TextInputType.phone,
-                    controller: logic.phoneController,
-                    hintText: "Enter your Mobile Number",
-                    onChanged: (){
-                      setState(() {
-                      });
-                    },
-                    labelText: "Mobile Number",
-                  ),
-                  const Gap(16),
-                  CostumeFormField(
-                    validationType: ValidationType.password,
-                    controller: logic.passwordController,
-                    hintText: "Enter your Password",
-                    labelText: "Password",
-                    onChanged: (){
-                      setState(() {
-                      });
-                    },
-                  ),
-                  const Gap(64),
-                  CostumeButtons.common(
-                    labelText: 'Login',
-                    onPressed: () {
-                      logic.login();
-                    },
-                    isEnabled: logic.validateFields(),
-                  ),
-                ],
+                    const Gap(12),
+                    const Text(
+                      "Rent Machine",
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    const Text(
+                      "version 1.0.0",
+                      style: TextStyle(fontSize: 12, color: Colors.white),
+                    ),
+                    const Gap(64),
+                    const Text(
+                      "LOGIN",
+                      style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const Gap(16),
+                    CostumeFormField(
+                      validationType: ValidationType.phone,
+                      inputType: TextInputType.phone,
+                      controller: logic.phoneController,
+                      hintText: "Enter your Mobile Number",
+                      onChanged: () {
+                        setState(() {});
+                      },
+                      labelText: "Mobile Number",
+                    ),
+                    const Gap(16),
+                    CostumeFormField(
+                      validationType: ValidationType.password,
+                      controller: logic.passwordController,
+                      hintText: "Enter your Password",
+                      labelText: "Password",
+                      onChanged: () {
+                        setState(() {});
+                      },
+                    ),
+                    const Gap(64),
+                    CostumeButtons.common(
+                      labelText: 'Login',
+                      onPressed: () {
+                        logic.login();
+                      },
+                      isEnabled: logic.validateFields(),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       );
-
     });
   }
 }

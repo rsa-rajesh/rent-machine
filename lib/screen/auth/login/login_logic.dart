@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,9 @@ class LoginLogic extends GetxController {
     });
 
     if (userData.isEmpty) {
-      print("user not found");
+      if (kDebugMode) {
+        print("user not found");
+      }
       navigator?.pop();
       Fluttertoast.showToast(
           msg: "User not found",
@@ -77,7 +80,9 @@ class LoginLogic extends GetxController {
         Get.offAndToNamed(AppRoutes.welcomeScreen);
       }else{
         navigator?.pop();
-        print("user or password do not match");
+        if (kDebugMode) {
+          print("user or password do not match");
+        }
         Fluttertoast.showToast(
             msg: "user or password do not match",
             toastLength: Toast.LENGTH_SHORT,

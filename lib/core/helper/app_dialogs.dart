@@ -210,7 +210,7 @@ Future<bool?> showExitDialog(BuildContext context,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10))),
                           padding: const EdgeInsets.all(16),
-                          child: Text(
+                          child: const Text(
                             "Yes",
                             textAlign: TextAlign.center,
                             // style: GoogleFonts.lato(
@@ -232,7 +232,7 @@ Future<bool?> showExitDialog(BuildContext context,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(10))),
                           padding: const EdgeInsets.all(16),
-                          child: Text(
+                          child: const Text(
                             "Cancel",
                             textAlign: TextAlign.center,
                             // style: GoogleFonts.lato(

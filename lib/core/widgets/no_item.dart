@@ -4,10 +4,11 @@ import '../app_managers/color_manager.dart';
 import 'custom_text.dart';
 
 class NoItem extends StatelessWidget {
-  String asset;
-  String? title;
-  String? desc;
-  NoItem({super.key, required this.asset, this.desc, this.title});
+  final String asset;
+  final String? title;
+  final String? desc;
+
+  const NoItem({super.key, required this.asset, this.desc, this.title});
 
   @override
   Widget build(BuildContext context) {

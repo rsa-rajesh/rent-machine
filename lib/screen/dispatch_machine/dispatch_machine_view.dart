@@ -24,162 +24,160 @@ class _DispatchMachinePageState extends State<DispatchMachinePage> {
     return GetBuilder<DispatchMachineLogic>(builder: (logic) {
       return Scaffold(
           appBar: AppBar(
-            title: Text("Dispatch Machine"),
+            title: const Text("Dispatch Machine"),
             centerTitle: true,
           ),
-          body: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gap(12),
-                ClipPath(
-                  clipper: ArrowClipReversed(8),
-                  child: Container(
-                    color: Colors.red,
-                    child: const Padding(
-                      padding: EdgeInsets.only(
-                          top: 4, bottom: 4, left: 8, right: 20),
-                      child: Text(
-                        "STATUS DETAILS",
-                        style: TextStyle(color: Colors.white),
-                      ),
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Gap(12),
+              ClipPath(
+                clipper: ArrowClipReversed(8),
+                child: Container(
+                  color: Colors.red,
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        top: 4, bottom: 4, left: 8, right: 20),
+                    child: Text(
+                      "STATUS DETAILS",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                Gap(12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: _buildDropDownFormField(
-                      hintText: "Status",
-                      inputType: TextInputType.text,
-                      mainController: logic,
+              ),
+              const Gap(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: _buildDropDownFormField(
+                    hintText: "Status",
+                    inputType: TextInputType.text,
+                    mainController: logic,
+                    onChanged: () {
+                      setState(() {});
+                    },
+                    controller: logic.statusController),
+              ),
+              const Gap(12),
+              ClipPath(
+                clipper: ArrowClipReversed(8),
+                child: Container(
+                  color: Colors.red,
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        top: 4, bottom: 4, left: 8, right: 20),
+                    child: Text(
+                      "RENT DETAILS",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              const Gap(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    CostumeFormField(
+                      validationType: ValidationType.name,
+                      controller: logic.dispatchedToController,
+                      hintText: "Dispatched To",
                       onChanged: () {
                         setState(() {});
                       },
-                      controller: logic.statusController),
+                      labelText: "Dispatched To",
+                    ),
+                    const Gap(12),
+                    CostumeFormField(
+                      validationType: ValidationType.phone,
+                      inputType: TextInputType.phone,
+                      controller: logic.userContactController,
+                      hintText: "User Contact",
+                      onChanged: () {
+                        setState(() {});
+                      },
+                      labelText: "User Contact",
+                    ),
+                    const Gap(12),
+                    CostumeFormField(
+                      validationType: ValidationType.common,
+                      controller: logic.siteInfoController,
+                      hintText: "Enter sight information",
+                      onChanged: () {
+                        setState(() {});
+                      },
+                      labelText: "Sight information",
+                    ),
+                  ],
                 ),
-                Gap(12),
-                ClipPath(
-                  clipper: ArrowClipReversed(8),
-                  child: Container(
-                    color: Colors.red,
-                    child: const Padding(
-                      padding: EdgeInsets.only(
-                          top: 4, bottom: 4, left: 8, right: 20),
-                      child: Text(
-                        "RENT DETAILS",
-                        style: TextStyle(color: Colors.white),
-                      ),
+              ),
+              const Gap(12),
+              ClipPath(
+                clipper: ArrowClipReversed(8),
+                child: Container(
+                  color: Colors.red,
+                  child: const Padding(
+                    padding: EdgeInsets.only(
+                        top: 4, bottom: 4, left: 8, right: 20),
+                    child: Text(
+                      "TIMMING",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                Gap(12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    children: [
-                      CostumeFormField(
-                        validationType: ValidationType.name,
-                        controller: logic.dispatchedToController,
-                        hintText: "Dispatched To",
-                        onChanged: () {
-                          setState(() {});
+              ),
+              const Gap(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){
+                          logic.startDateController.text="sssss";
+                          setState(() {
+                          });
                         },
-                        labelText: "Dispatched To",
-                      ),
-                      Gap(12),
-                      CostumeFormField(
-                        validationType: ValidationType.phone,
-                        inputType: TextInputType.phone,
-                        controller: logic.userContactController,
-                        hintText: "User Contact",
-                        onChanged: () {
-                          setState(() {});
-                        },
-                        labelText: "User Contact",
-                      ),
-                      Gap(12),
-                      CostumeFormField(
-                        validationType: ValidationType.common,
-                        controller: logic.siteInfoController,
-                        hintText: "Enter sight information",
-                        onChanged: () {
-                          setState(() {});
-                        },
-                        labelText: "Sight information",
-                      ),
-                    ],
-                  ),
-                ),
-                Gap(12),
-                ClipPath(
-                  clipper: ArrowClipReversed(8),
-                  child: Container(
-                    color: Colors.red,
-                    child: const Padding(
-                      padding: EdgeInsets.only(
-                          top: 4, bottom: 4, left: 8, right: 20),
-                      child: Text(
-                        "TIMMING",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                Gap(12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: (){
-                            logic.startDateController.text="sssss";
-                            setState(() {
-                            });
-                          },
-                          child: CostumeFormField.date(
-                            validationType: ValidationType.date,
-                            controller: logic.startDateController,
-                            hintText: "Start date",
-                            onChanged: () {
-                              setState(() {});
-                            },
-                            labelText: "Start date",
-                          ),
-                        ),
-                      ),
-                      Gap(12),
-                      Expanded(
                         child: CostumeFormField.date(
                           validationType: ValidationType.date,
-                          controller: logic.endDateController,
-                          hintText: "End date",
+                          controller: logic.startDateController,
+                          hintText: "Start date",
                           onChanged: () {
-                            setState(() {
-
-                            });
+                            setState(() {});
                           },
-                          labelText: "End date",
+                          labelText: "Start date",
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                    const Gap(12),
+                    Expanded(
+                      child: CostumeFormField.date(
+                        validationType: ValidationType.date,
+                        controller: logic.endDateController,
+                        hintText: "End date",
+                        onChanged: () {
+                          setState(() {
 
-                Gap(32),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: CostumeButtons.common(
-                    labelText: 'Submit',
-                    onPressed: () {
-                      logic.updateMachine();
-                    },
-                    isEnabled: logic.isFormValid(),
-                  ),
+                          });
+                        },
+                        labelText: "End date",
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+
+              const Gap(32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: CostumeButtons.common(
+                  labelText: 'Submit',
+                  onPressed: () {
+                    logic.updateMachine();
+                  },
+                  isEnabled: logic.isFormValid(),
+                ),
+              ),
+            ],
           ));
     });
   }

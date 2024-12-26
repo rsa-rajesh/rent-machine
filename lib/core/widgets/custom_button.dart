@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-import '../app_managers/color_manager.dart';
 
 class CustomBottom extends StatelessWidget {
   final String text;
@@ -19,7 +16,7 @@ class CustomBottom extends StatelessWidget {
 
   final List<BoxShadow>? boxShadow;
   const CustomBottom({
-    Key? key,
+    super.key,
     required this.text,
     this.textColor,
     this.backgroundColor,
@@ -33,7 +30,7 @@ class CustomBottom extends StatelessWidget {
     this.fontWeight,
     this.borderColor,
     this.borderWidth,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +80,7 @@ class CustomAssetBottom extends StatelessWidget {
 
   final List<BoxShadow>? boxShadow;
   const CustomAssetBottom(
-      {Key? key,
+      {super.key,
       required this.text,
       this.textColor,
       this.backgroundColor,
@@ -93,8 +90,7 @@ class CustomAssetBottom extends StatelessWidget {
       required this.iconsAsset,
       this.iconColor,
       this.iconPaddingLeft,
-      this.boxShadow})
-      : super(key: key);
+      this.boxShadow});
 
   @override
   Widget build(BuildContext context) {

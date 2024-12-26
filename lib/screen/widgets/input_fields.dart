@@ -98,10 +98,7 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
 
   @override
   Widget build(BuildContext context) {
-    // if (widget.validationType == ValidationType.password) {
-    //   passSeen = true;
-    // }
-
+    
     return GestureDetector(
       onTap: () async{
         if (widget.validationType == ValidationType.date) {
@@ -191,6 +188,12 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
                 ),
                 borderRadius: BorderRadius.circular(10)),
             hintText: widget.hintText ?? "",
+            labelStyle: TextStyle(
+              // backgroundColor: Colors.white,
+              color: ColorManager.hintColor,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
             hintStyle: TextStyle(
               color: ColorManager.hintColor,
               fontSize: 14,

@@ -8,4 +8,8 @@ class AssetManager {
   static const String logoutLogo = "$imagePath/log_out.png";
   static const String userLogo = "$imagePath/profile.png";
 
+  static const String bg1 = "$imagePath/bg_1.jpg";
+  static const String bg2 = "$imagePath/bg_2.jpg";
+  static const String bg3 = "$imagePath/bg_3.jpg";
+
 }

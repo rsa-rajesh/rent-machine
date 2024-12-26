@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rent_mechine/core/widgets/costume_remarks_dialog.dart';
+import 'package:rent_mechine/core/widgets/repair_dialog.dart';
 import 'package:rent_mechine/routes/app_routes.dart';
 import '../../core/widgets/costume_dialog.dart';
 import '../../core/widgets/costume_dialog_with_cross.dart';
@@ -13,6 +15,7 @@ import '../../models/machine_list_model.dart';
 class ViewMachineLogic extends GetxController {
   List<bool> isSelected = [
     true,
+    false,
     false,
     false,
   ];
@@ -37,6 +40,9 @@ class ViewMachineLogic extends GetxController {
     } else if (orderStatus.toLowerCase() == "rent") {
       return Colors.red[50];
     }
+    else if (orderStatus.toLowerCase() == "repair") {
+      return Colors.yellow[50];
+    }
     return Colors.blue[50];
   }
 
@@ -45,6 +51,9 @@ class ViewMachineLogic extends GetxController {
       return Colors.green[900];
     } else if (orderStatus.toLowerCase() == "rent") {
       return Colors.red[900];
+    }
+    else if (orderStatus.toLowerCase() == "repair") {
+      return Colors.yellow[900];
     }
     return Colors.blue[900];
   }
@@ -59,6 +68,9 @@ class ViewMachineLogic extends GetxController {
     if (isSelected[2]) {
       return Colors.red[50];
     }
+    if (isSelected[3]) {
+      return Colors.yellow[50];
+    }
   }
 
   getSelectedColor() {
@@ -70,6 +82,9 @@ class ViewMachineLogic extends GetxController {
     }
     if (isSelected[2]) {
       return Colors.red[900];
+    }
+    if (isSelected[3]) {
+      return Colors.yellow[900];
     }
   }
 
@@ -97,6 +112,16 @@ class ViewMachineLogic extends GetxController {
     if (isSelected[2]) {
       for (var a in machinesOriginal) {
         if (a.machineData?.status == "rent") {
+          machines.add(a);
+        }
+      }
+      update();
+
+      return;
+    }
+    if (isSelected[3]) {
+      for (var a in machinesOriginal) {
+        if (a.machineData?.status == "repair") {
           machines.add(a);
         }
       }
@@ -171,8 +196,10 @@ class ViewMachineLogic extends GetxController {
               builder: (BuildContext context) {
                 context = context;
                 return CostumeRemarksDialog(
-                  onButton1Clicked: (remarks) {
-                    updateMachine(s, remarks);
+                  onButton1Clicked:
+                      (remarks, payType, bankOrWalletName, chequeOrMobileNo) {
+                    updateMachine(s, remarks, payType, bankOrWalletName,
+                        chequeOrMobileNo);
                   },
                 );
               },
@@ -190,7 +217,27 @@ class ViewMachineLogic extends GetxController {
     );
   }
 
-  Future<void> updateMachine(String status, remarks) async {
+  void updateRepairStatus() {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return RepairDialog(
+          onButton1Clicked: (name,address,contact) {
+
+            updateMachineRepair(name,address,contact);
+
+            // updateMachine(s);
+          },
+
+        );
+      },
+    );
+  }
+
+  Future<void> updateMachineRepair(name, address, contact)
+  async {
     bool isError1 = false;
     bool isError2 = false;
 
@@ -206,7 +253,88 @@ class ViewMachineLogic extends GetxController {
       },
     );
 
-    var machineId = selectedMachine?.key;
+    // var machineId = selectedMachine?.key;
+
+    databaseReference
+    // .child("machine/${storage.read("machineKey")}")
+        .child("machine/${selectedMachine?.key}")
+        .update({"dispatcherName": storage.read("name"), "status": "repair"})
+        .then((value) => {isError1 = false})
+        .catchError((onError) => {isError1 = true});
+
+    databaseReference
+        .child("machine_logs")
+        .push()
+        .set({
+      "machine": storage.read("machineKey"),
+      "date": DateTime.now().toString(),
+      "repairCompanyName" :name,
+      "repairCompanyAddress" :address,
+      "repairCompanyContact" :contact,
+      "action": "repair",
+      "dispatcherName": storage.read("name"),
+      "status": "repair",
+      "remarks": "send to repair by : ${storage.read("name")}"
+    })
+        .then((value) => {isError2 = false})
+        .catchError((onError) => {isError2 = true});
+    navigator?.pop();
+
+    if (isError1 && isError2) {
+      Fluttertoast.showToast(
+          msg: "Error Updating Machine",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Success",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.back();
+
+      await databaseReference.child("machine").get().then((value) {
+        machinesOriginal.clear();
+        for (DataSnapshot snapshot in value.children) {
+          MachineData machineData = MachineData.fromJson(
+              Map<String, dynamic>.from(snapshot.value as Map));
+          machinesOriginal
+              .add(Machine(key: snapshot.key, machineData: machineData));
+        }
+      });
+      if (kDebugMode) {
+        print(machinesOriginal[0].machineData?.machineType);
+      }
+      updateSelected();
+    }
+  }
+
+  Future<void> updateMachine(String status, remarks, payType, bankOrWalletName,
+      chequeOrMobileNo)
+  async {
+    bool isError1 = false;
+    bool isError2 = false;
+
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        context = context;
+        return const Loading(
+          'loading...',
+          false,
+        );
+      },
+    );
+
+    // var machineId = selectedMachine?.key;
 
     databaseReference
         // .child("machine/${storage.read("machineKey")}")
@@ -229,6 +357,9 @@ class ViewMachineLogic extends GetxController {
           "action": status,
           "dispatcherName": storage.read("name"),
           "status": "available",
+          "paymentType": payType??"",
+          "bankOrWalletName": bankOrWalletName??"",
+          "chequeOrMobileNo": chequeOrMobileNo??"",
           "remarks": remarks
         })
         .then((value) => {isError2 = false})
@@ -264,12 +395,14 @@ class ViewMachineLogic extends GetxController {
               .add(Machine(key: snapshot.key, machineData: machineData));
         }
       });
-      print(machinesOriginal[0].machineData?.machineType);
+      if (kDebugMode) {
+        print(machinesOriginal[0].machineData?.machineType);
+      }
       updateSelected();
     }
   }
 
-  void getData() async{
+  void getData() async {
     await databaseReference.child("machine").get().then((value) {
       machinesOriginal.clear();
       for (DataSnapshot snapshot in value.children) {
@@ -279,15 +412,16 @@ class ViewMachineLogic extends GetxController {
             .add(Machine(key: snapshot.key, machineData: machineData));
       }
     });
-    print(machinesOriginal[0].machineData?.machineType);
+    if (kDebugMode) {
+      print(machinesOriginal[0].machineData?.machineType);
+    }
     updateSelected();
   }
 
   isAdmin() {
-    if(storage.read("role").toString().toLowerCase()=="admin"){
+    if (storage.read("role").toString().toLowerCase() == "admin") {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }

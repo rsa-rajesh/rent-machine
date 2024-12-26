@@ -11,7 +11,7 @@ import '../../widgets/input_fields.dart';
 import 'add_user_logic.dart';
 
 class AddUserPage extends StatefulWidget {
-  const AddUserPage({Key? key}) : super(key: key);
+  const AddUserPage({super.key});
 
   @override
   State<AddUserPage> createState() => _AddUserPageState();
@@ -25,7 +25,9 @@ class _AddUserPageState extends State<AddUserPage> {
     return GetBuilder<AddUserLogic>(builder: (logic) {
       return Scaffold(
           appBar: AppBar(
-            title: logic.isUpdate?const Text("Update User"):const Text("Add User"),
+            title: logic.isUpdate
+                ? const Text("Update User")
+                : const Text("Add User"),
             centerTitle: true,
           ),
           backgroundColor: Colors.grey.shade100,
@@ -33,6 +35,37 @@ class _AddUserPageState extends State<AddUserPage> {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
+                const Gap(6),
+                GestureDetector(
+                  onTap: () {
+                    logic.pickImage();
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      height: 100,
+                      width: 100,
+                      child: Center(
+                        child: logic.pickedFile == null
+                            ? logic.isUpdate
+                                ? Image.network(
+                                    logic.imageUrl,
+                                    errorBuilder: (context, _, __) {
+                                      return const Icon(Icons.add);
+                                    },
+                                  )
+                                : const Icon(Icons.add)
+                            : Image.file(logic.pickedFile!),
+                      ),
+                    ),
+                  ),
+                ),
+                const Text("User Photo"),
+                const Gap(12),
                 CostumeFormField(
                   validationType: ValidationType.name,
                   controller: logic.fullNameController,
@@ -42,7 +75,7 @@ class _AddUserPageState extends State<AddUserPage> {
                   },
                   labelText: "Full Name",
                 ),
-                Gap(12),
+                const Gap(12),
                 CostumeFormField(
                   validationType: ValidationType.phone,
                   controller: logic.contactController,
@@ -52,7 +85,7 @@ class _AddUserPageState extends State<AddUserPage> {
                   },
                   labelText: "Contact",
                 ),
-                Gap(12),
+                const Gap(12),
                 // CostumeFormField(
                 //   validationType: ValidationType.common,
                 //   controller: logic.positionController,
@@ -71,7 +104,7 @@ class _AddUserPageState extends State<AddUserPage> {
                       setState(() {});
                     },
                     controller: logic.positionController),
-                Gap(12),
+                const Gap(12),
                 CostumeFormField(
                   validationType: ValidationType.password,
                   controller: logic.passwordController,
@@ -81,7 +114,7 @@ class _AddUserPageState extends State<AddUserPage> {
                   },
                   labelText: "Password",
                 ),
-                Gap(12),
+                const Gap(12),
                 CostumeFormField.confirmPassword(
                   validationType: ValidationType.confirmPassword,
                   controller: logic.confirmPasswordController,
@@ -94,9 +127,9 @@ class _AddUserPageState extends State<AddUserPage> {
                 ),
                 const Gap(62),
                 CostumeButtons.common(
-                  labelText: logic.isUpdate?"Update User":"Add User",
+                  labelText: logic.isUpdate ? "Update User" : "Add User",
                   onPressed: () {
-                    logic.isUpdate?logic.updateUserDb(): logic.createUser();
+                    logic.isUpdate ? logic.updateUserDb() : logic.createUser();
                   },
                   isEnabled: logic.validateFields(),
                 ),
@@ -105,7 +138,6 @@ class _AddUserPageState extends State<AddUserPage> {
           ));
     });
   }
-
 
   Widget _buildDropDownFormField({
     SingleValueDropDownController? controller,

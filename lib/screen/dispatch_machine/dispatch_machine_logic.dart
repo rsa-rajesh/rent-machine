@@ -1,12 +1,9 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:rent_mechine/routes/app_routes.dart';
-
 import '../../core/helper/input_validator.dart';
 import '../../core/widgets/loading_dialog.dart';
 import '../view_machine/view_machine_logic.dart';
@@ -23,7 +20,6 @@ class DispatchMachineLogic extends GetxController {
   List<DropDownValueModel> status = [
     const DropDownValueModel(name: 'Rent', value: "rent"),
     const DropDownValueModel(name: 'On-Site', value: "onsite"),
-    // const DropDownValueModel(name: 'Available', value: "available"),
   ];
   late SingleValueDropDownController statusController =
       SingleValueDropDownController();

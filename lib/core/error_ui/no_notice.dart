@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import '../app_managers/assets_managers.dart';
 
 class NoNotice extends StatefulWidget {
   final VoidCallback? onRetry;
