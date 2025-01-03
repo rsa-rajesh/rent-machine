@@ -9,5 +9,6 @@ class AppRoutes{
   static const machineDispatchScreen = "/machineDispatchScreen";
 
   static const listUserScreen = "/listUserScreen";
+  static const reportScreen = "/reportScreen";
 
 }

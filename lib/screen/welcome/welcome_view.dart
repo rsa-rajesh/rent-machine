@@ -3,7 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:rent_mechine/core/app_managers/assets_managers.dart';
 import 'package:rent_mechine/routes/app_routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/app_managers/color_manager.dart';
 import 'welcome_logic.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -27,19 +29,21 @@ class WelcomePage extends StatelessWidget {
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(22.0),
+                padding: const EdgeInsets.only(top: 22, left: 22, right: 22),
                 child: Column(
                   children: [
                     Center(
                       child: Text(
                         "Welcome : ${logic.userName}",
-                        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.white),
+                        style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
-
                     const Gap(32),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Get.toNamed(AppRoutes.viewMachineScreen);
                       },
                       child: Card(
@@ -86,16 +90,51 @@ class WelcomePage extends StatelessWidget {
                                     const Text(
                                       "ADD MACHINE",
                                       style: TextStyle(
-                                          fontSize: 25, fontWeight: FontWeight.bold),
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
+                          Visibility(
+                            visible: false,
+                            child: Column(
+                              children: [
+                                const Gap(12),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.reportScreen);
+                                  },
+                                  child: Card(
+                                    color: Colors.blue[100]?.withAlpha(160),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            AssetManager.reportIcon,
+                                            width: 60,
+                                          ),
+                                          const Gap(22),
+                                          const Text(
+                                            "VIEW REPORTS",
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           const Gap(12),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               Get.toNamed(AppRoutes.listUserScreen);
                             },
                             child: Card(
@@ -112,7 +151,8 @@ class WelcomePage extends StatelessWidget {
                                     const Text(
                                       "USERS LIST",
                                       style: TextStyle(
-                                          fontSize: 25, fontWeight: FontWeight.bold),
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
@@ -124,7 +164,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     const Gap(12),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         logic.logout();
                       },
                       child: Card(
@@ -148,7 +188,29 @@ class WelcomePage extends StatelessWidget {
                         ),
                       ),
                     ),
-
+                    Spacer(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Version 1.0.1 | Powered by   ",style: TextStyle(color: Colors.grey),),
+                            GestureDetector(
+                                onTap: _launchURL,
+                                child: Text(
+                                  "Adira Tech",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    // decoration:
+                                    //     TextDecoration.underline,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -157,5 +219,11 @@ class WelcomePage extends StatelessWidget {
         ),
       );
     });
+  }
+  _launchURL() async {
+    final Uri url = Uri.parse("https://www.adiratech.com/");
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

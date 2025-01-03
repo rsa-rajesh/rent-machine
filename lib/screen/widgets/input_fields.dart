@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nepali_date_picker/nepali_date_picker.dart';
-
 import '../../core/app_managers/color_manager.dart';
 import '../../core/enums/validation_type.dart';
 import '../../core/helper/input_validator.dart';

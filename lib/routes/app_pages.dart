@@ -10,6 +10,8 @@ import 'package:rent_mechine/screen/auth/login/login_view.dart';
 import 'package:rent_mechine/screen/dispatch_machine/dispatch_machine_binding.dart';
 import 'package:rent_mechine/screen/dispatch_machine/dispatch_machine_view.dart';
 import 'package:rent_mechine/screen/machine_details/machine_details_view.dart';
+import 'package:rent_mechine/screen/report/report_binding.dart';
+import 'package:rent_mechine/screen/report/report_view.dart';
 import 'package:rent_mechine/screen/view_machine/view_machine_view.dart';
 import 'package:rent_mechine/screen/welcome/welcome_binding.dart';
 import 'package:rent_mechine/screen/welcome/welcome_view.dart';
@@ -55,5 +57,9 @@ class AppPages {
         name: AppRoutes.listUserScreen,
         page: () => const ListUserPage(),
         binding: ListUserBinding()),
+    GetPage(
+        name: AppRoutes.reportScreen,
+        page: () => const ReportPage(),
+        binding: ReportBinding()),
   ];
 }

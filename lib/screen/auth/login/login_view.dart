@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_managers/assets_managers.dart';
 import '../../../core/enums/validation_type.dart';
@@ -48,14 +49,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const Gap(12),
                     const Text(
-                      "Rent Machine",
+                      "GEO Machine",
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
                     const Text(
-                      "version 1.0.0",
+                      "version 1.0.1",
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                     const Gap(64),
@@ -99,9 +100,38 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Version 1.0.1 | Powered by   ",style: TextStyle(color: Colors.grey),),
+                    GestureDetector(
+                        onTap: _launchURL,
+                        child: Text(
+                          "Adira Tech",
+                          style: TextStyle(
+                            color: Colors.red,
+                            // decoration:
+                            //     TextDecoration.underline,
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+            ),
+
           ],
         ),
       );
     });
+  }
+  _launchURL() async {
+    final Uri url = Uri.parse("https://www.adiratech.com/");
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

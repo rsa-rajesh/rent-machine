@@ -50,8 +50,8 @@ class AddMachineLogic extends GetxController {
     super.onInit();
   }
 
-  pickImage() async {
-    File? file = await pickSingleImage(ImageSource.camera);
+  pickImage(ImageSource imageSource) async {
+    File? file = await pickSingleImage(imageSource);
     if (file != null) {
       pickedFile = file;
       update();

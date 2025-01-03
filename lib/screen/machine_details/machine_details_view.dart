@@ -28,12 +28,11 @@ class _MachineDetailsPageState extends State<MachineDetailsPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: 80,
+                    width: 100,
                     child: CostumeButtons.negative(
                       labelText: 'Repair',
                       onPressed: () {
                         logic.updateRepairStatus();
-                        // logic.rentMachine(logic.selectedMachine?.key);
                       },
                       isEnabled: true,
                     ),

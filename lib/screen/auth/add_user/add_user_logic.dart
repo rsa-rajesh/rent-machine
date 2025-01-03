@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,7 +11,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rent_mechine/models/users_list_model.dart';
-
 import '../../../core/helper/input_validator.dart';
 
 class AddUserLogic extends GetxController {
@@ -86,12 +84,10 @@ class AddUserLogic extends GetxController {
     });
 
     if (userData.isEmpty) {
-
       String fileName = DateTime.now()
           .millisecondsSinceEpoch
           .toString(); // Generate a unique file name
       Reference storageRef = fbStorage.ref().child('uploads/$fileName');
-
       // Upload the file
       UploadTask uploadTask = storageRef.putFile(pickedFile!);
       TaskSnapshot taskSnapshot = await uploadTask;
@@ -121,6 +117,8 @@ class AddUserLogic extends GetxController {
       fontSize: 16.0)
     });
       Get.back();
+      Get.back();
+
     } else {
       Fluttertoast.showToast(
       msg: "User already created for this contact",
@@ -169,11 +167,13 @@ class AddUserLogic extends GetxController {
       // if (kDebugMode) {print("User updated")}
     });
     Get.back();
+    Get.back();
+
   }
 
 
-  pickImage() async {
-    File? file = await pickSingleImage(ImageSource.camera);
+  pickImage(ImageSource imageSource) async {
+    File? file = await pickSingleImage(imageSource);
     if (file != null) {
       pickedFile = file;
       update();

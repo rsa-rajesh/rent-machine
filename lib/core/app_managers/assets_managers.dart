@@ -12,4 +12,10 @@ class AssetManager {
   static const String bg2 = "$imagePath/bg_2.jpg";
   static const String bg3 = "$imagePath/bg_3.jpg";
 
+  //icons
+  static const String cameraIcon = "$iconPath/camera.png";
+  static const String galleryIcon = "$iconPath/gallery.png";
+  static const String reportIcon = "$iconPath/report.png";
+
+
 }

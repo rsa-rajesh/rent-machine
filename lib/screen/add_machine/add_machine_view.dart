@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../core/app_managers/assets_managers.dart';
 import '../../core/enums/validation_type.dart';
 import '../widgets/buttons.dart';
 import '../widgets/input_fields.dart';
@@ -50,7 +52,8 @@ class _AddMachinePageState extends State<AddMachinePage> {
               const Gap(6),
               GestureDetector(
                 onTap: (){
-                  logic.pickImage();
+                  selectImage(logic);
+                  // logic.pickImage(ImageSource.camera);--
                 },
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -84,4 +87,84 @@ class _AddMachinePageState extends State<AddMachinePage> {
       );
     });
   }
+
+  Future selectImage(AddMachineLogic logic) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: SizedBox(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(22.0),
+                child: Column(
+                  children: [
+                    Spacer(),
+
+                    Text(
+                      'Select Image From !',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            logic.pickImage(ImageSource.gallery);
+                            Get.back();
+
+                          },
+                          child: Card(
+                              elevation: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      AssetManager.galleryIcon,
+                                      height: 60,
+                                      width: 100,
+                                    ),
+                                    Text('Gallery'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            logic.pickImage(ImageSource.camera);
+                            Get.back();
+                          },
+                          child: Card(
+                              elevation: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      AssetManager.cameraIcon,
+                                      height: 60,
+                                      width: 100,
+                                    ),
+                                    Text('Camera'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
 }
