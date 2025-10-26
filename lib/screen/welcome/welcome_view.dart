@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:rent_mechine/core/app_managers/assets_managers.dart';
 import 'package:rent_mechine/routes/app_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../core/app_managers/color_manager.dart';
 import 'welcome_logic.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -132,6 +130,41 @@ class WelcomePage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          Visibility(
+                            visible: true,
+                            child: Column(
+                              children: [
+                                const Gap(12),
+                                GestureDetector(
+                                  onTap: () {
+                                   logic.downloadReport();
+                                  },
+                                  child: Card(
+                                    color: Colors.blue[100]?.withAlpha(160),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            AssetManager.reportIcon,
+                                            width: 60,
+                                          ),
+                                          const Gap(22),
+                                          const Text(
+                                            "DOWNLOAD REPORTS",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
                           const Gap(12),
                           GestureDetector(
                             onTap: () {
@@ -162,6 +195,7 @@ class WelcomePage extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     const Gap(12),
                     GestureDetector(
                       onTap: () {
@@ -196,8 +230,9 @@ class WelcomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Version 1.0.1 | Powered by   ",style: TextStyle(color: Colors.grey),),
-                            GestureDetector(
+
+                            Text(logic.showBranding()?"Version 1.0.2 | Powered by   ":"Version 1.0.2",style: const TextStyle(color: Colors.grey),),
+                            logic.showBranding()?GestureDetector(
                                 onTap: _launchURL,
                                 child: Text(
                                   "Adira Tech",
@@ -206,7 +241,7 @@ class WelcomePage extends StatelessWidget {
                                     // decoration:
                                     //     TextDecoration.underline,
                                   ),
-                                )),
+                                )):const SizedBox(),
                           ],
                         ),
                       ),

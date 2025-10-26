@@ -96,4 +96,12 @@ class LoginLogic extends GetxController {
 
     }
   }
-}
+
+  bool showBranding() {
+    int month = DateTime.now().month;
+    int year = DateTime.now().year;
+    if(year<=2025 && month<7 ){
+      return false;
+    }
+    return true;
+  }}

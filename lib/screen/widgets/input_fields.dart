@@ -3,7 +3,6 @@ import 'package:nepali_date_picker/nepali_date_picker.dart';
 import '../../core/app_managers/color_manager.dart';
 import '../../core/enums/validation_type.dart';
 import '../../core/helper/input_validator.dart';
-import 'package:nepali_date_picker/nepali_date_picker.dart' as picker;
 
 class CostumeFormField extends StatefulWidget {
   final TextEditingController? controller;
@@ -209,7 +208,7 @@ class _CostumeFormFieldState extends State<CostumeFormField> {
   }
 
   Future<String> getDate() async {
-    NepaliDateTime? selectedDateTime = await picker.showMaterialDatePicker(
+    NepaliDateTime? selectedDateTime = await showNepaliDatePicker(
       context: context,
       initialDate: NepaliDateTime.now(),
       firstDate: NepaliDateTime(2080),

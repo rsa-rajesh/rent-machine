@@ -202,12 +202,9 @@ class _MachineDetailsPageState extends State<MachineDetailsPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: CostumeButtons.common(
-                    // labelText: 'Send to Repair',
                     labelText: 'Rent',
-
                     onPressed: () {
                       logic.rentMachine(logic.selectedMachine?.key);
-                      // logic.updateRepairStatus();
                     },
                     isEnabled: true,
                   ),

@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white),
                     ),
                     const Text(
-                      "version 1.0.1",
+                      "version 1.0.2",
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                     const Gap(64),
@@ -107,8 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Version 1.0.1 | Powered by   ",style: TextStyle(color: Colors.grey),),
-                    GestureDetector(
+                    Text(logic.showBranding()?"Version 1.0.2 | Powered by   ":"Version 1.0.2",style: const TextStyle(color: Colors.grey),),
+                    logic.showBranding()?GestureDetector(
                         onTap: _launchURL,
                         child: Text(
                           "Adira Tech",
@@ -117,7 +117,8 @@ class _LoginPageState extends State<LoginPage> {
                             // decoration:
                             //     TextDecoration.underline,
                           ),
-                        )),
+                        )):const SizedBox(),
+
                   ],
                 ),
               ),

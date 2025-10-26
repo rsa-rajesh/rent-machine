@@ -136,8 +136,11 @@ class AddMachineLogic extends GetxController {
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
       "status": "available"
-    }).then((value) => {        if (kDebugMode) {
-    print("Machine Created")}});
+    }).then((value) => {
+          // if (kDebugMode) {
+          //   print("Machine Created")
+          // }
+        });
     navigator?.pop();
 
     Fluttertoast.showToast(
@@ -182,7 +185,7 @@ class AddMachineLogic extends GetxController {
       "machineType": typeOfMachineController.text,
       "machinePhoto": downloadUrl,
     }).then((value) => {
-          if (kDebugMode) {print("Machine Updated")}
+          // if (kDebugMode) {print("Machine Updated")}
         });
 
     final ViewMachineLogic c = Get.find();
@@ -190,4 +193,5 @@ class AddMachineLogic extends GetxController {
     navigator?.pop();
     Get.back();
   }
+
 }

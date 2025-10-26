@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
-import '../app_managers/assets_managers.dart';
 import '../app_managers/color_manager.dart';
 
 class RepairDialog extends StatelessWidget {

@@ -253,10 +253,7 @@ class ViewMachineLogic extends GetxController {
       },
     );
 
-    // var machineId = selectedMachine?.key;
-
     databaseReference
-    // .child("machine/${storage.read("machineKey")}")
         .child("machine/${selectedMachine?.key}")
         .update({"dispatcherName": storage.read("name"), "status": "repair"})
         .then((value) => {isError1 = false})
@@ -266,7 +263,7 @@ class ViewMachineLogic extends GetxController {
         .child("machine_logs")
         .push()
         .set({
-      "machine": storage.read("machineKey"),
+      "machine": selectedMachine?.key,
       "date": DateTime.now().toString(),
       "repairCompanyName" :name,
       "repairCompanyAddress" :address,
@@ -334,10 +331,8 @@ class ViewMachineLogic extends GetxController {
       },
     );
 
-    // var machineId = selectedMachine?.key;
 
     databaseReference
-        // .child("machine/${storage.read("machineKey")}")
         .child("machine/${selectedMachine?.key}")
         .update({"dispatcherName": storage.read("name"), "status": "available"})
         .then((value) => {isError1 = false})
@@ -347,7 +342,7 @@ class ViewMachineLogic extends GetxController {
         .child("machine_logs")
         .push()
         .set({
-          "machine": storage.read("machineKey"),
+          "machine": selectedMachine?.key,
           "startDate": selectedMachine?.machineData?.startDate,
           "endDate": selectedMachine?.machineData?.endDate,
           "date": DateTime.now().toString(),
